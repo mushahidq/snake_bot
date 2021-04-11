@@ -77,6 +77,8 @@ class Snake_Bot(discord.Client):
             game['spawn_food'] = True
             game['length'] += 1
             body_add = game['head'].copy()
+            if game['length'] > 0:
+                body_add = game['body'][-1].copy()
             if game['direction'] == 2:
                 body_add[0] -= 1
             elif game['direction'] == 4:
@@ -150,26 +152,26 @@ class Snake_Bot(discord.Client):
             if game["current_score"] > game["high_score"]:
                 game["high_score"] = game["current_score"]
                 await message.channel.send("New High Score!!")
-                game['game'] = False
-                game['head'] = [1, 1]
-                game['length'] = 0
-                game['direction'] = 6
-                game['body'] = []
-                game['spawn_food'] = True
-                game['food'] = []
+            game['game'] = False
+            game['head'] = [1, 1]
+            game['length'] = 0
+            game['direction'] = 6
+            game['body'] = []
+            game['spawn_food'] = True
+            game['food'] = []
             return True
         if game['head'] in game['body']:
             await message.channel.send(f'Game Over!\nCurrent Score: {game["current_score"]}\nHigh Score: {game["high_score"]}')
             if game["current_score"] > game["high_score"]:
                 game["high_score"] = game["current_score"]
                 await message.channel.send("New High Score!!")
-                game['game'] = False
-                game['head'] = [1, 1]
-                game['length'] = 0
-                game['direction'] = 6
-                game['body'] = []
-                game['spawn_food'] = True
-                game['food'] = []
+            game['game'] = False
+            game['head'] = [1, 1]
+            game['length'] = 0
+            game['direction'] = 6
+            game['body'] = []
+            game['spawn_food'] = True
+            game['food'] = []
             return True
         return False
 
