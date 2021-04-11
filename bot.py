@@ -59,6 +59,10 @@ class Snake_Bot(discord.Client):
         await self.update_grid(message)
 
     async def update_grid(self, message):
+        if game['length'] > 0:
+            game['body'].insert(0, game['head'].copy())
+            game['body'].pop(-1)
+
         if game['direction'] == 2:
             game['head'][0] += 1
         elif game['direction'] == 4:
@@ -72,17 +76,16 @@ class Snake_Bot(discord.Client):
             game['current_score'] += 1
             game['spawn_food'] = True
             game['length'] += 1
-            body_add = game['head']
+            body_add = game['head'].copy()
             if game['direction'] == 2:
-                body_add[0] -= 2
+                body_add[0] -= 1
             elif game['direction'] == 4:
-                body_add[1] += 2
+                body_add[1] += 1
             elif game['direction'] == 6:
-                body_add[1] -= 2
+                body_add[1] -= 1
             elif game['direction'] == 8:
-                body_add[0] -= 2
-            game['body'].append(body_add)
-            print(game['body'])
+                body_add[0] -= 1
+            game['body'].insert(0, body_add)
 
         while game['spawn_food']:
             game['food'] = [random.randint(1, 6), random.randint(1, 6)]
@@ -147,26 +150,26 @@ class Snake_Bot(discord.Client):
             if game["current_score"] > game["high_score"]:
                 game["high_score"] = game["current_score"]
                 await message.channel.send("New High Score!!")
-                game["game"] = False
-                game["head"] = [1, 1]
-                game["length"] = 0
-                game["direction"] = 6
-                game["body"] = []
-                game["spawn_food"] = True
-                game["food"] = []
+                game['game'] = False
+                game['head'] = [1, 1]
+                game['length'] = 0
+                game['direction'] = 6
+                game['body'] = []
+                game['spawn_food'] = True
+                game['food'] = []
             return True
         if game['head'] in game['body']:
             await message.channel.send(f'Game Over!\nCurrent Score: {game["current_score"]}\nHigh Score: {game["high_score"]}')
             if game["current_score"] > game["high_score"]:
                 game["high_score"] = game["current_score"]
                 await message.channel.send("New High Score!!")
-                game["game"] = False
-                game["head"] = [1, 1]
-                game["length"] = 0
-                game["direction"] = 6
-                game["body"] = []
-                game["spawn_food"] = True
-                game["food"] = []
+                game['game'] = False
+                game['head'] = [1, 1]
+                game['length'] = 0
+                game['direction'] = 6
+                game['body'] = []
+                game['spawn_food'] = True
+                game['food'] = []
             return True
         return False
 
