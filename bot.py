@@ -77,7 +77,7 @@ class Snake_Bot(discord.Client):
             game['spawn_food'] = True
             game['length'] += 1
             body_add = game['head'].copy()
-            if game['length'] > 0:
+            if game['length'] > 1:
                 body_add = game['body'][-1].copy()
             if game['direction'] == 2:
                 body_add[0] -= 1
